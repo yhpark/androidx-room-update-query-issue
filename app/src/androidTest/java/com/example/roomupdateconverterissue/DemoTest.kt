@@ -27,6 +27,9 @@ class DemoTest {
         db.close()
     }
 
+    /**
+     * BROKEN
+     */
     @Test
     fun testUpdateV(): Unit = runBlocking {
         val id = 123L
@@ -38,6 +41,9 @@ class DemoTest {
         assert(e?.v == listOf("a", "b"))
     }
 
+    /**
+     * This works
+     */
     @Test
     fun testUpdateN(): Unit = runBlocking {
         val id = 123L
@@ -46,7 +52,6 @@ class DemoTest {
 
         val e = dao.getById(id)
         assert(e?.id == 123L)
-        println(e?.n)
         assert(e?.n == listOf(Nested("a"), Nested("b")))
     }
 }
