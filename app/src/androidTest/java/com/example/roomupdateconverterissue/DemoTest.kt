@@ -28,21 +28,20 @@ class DemoTest {
     }
 
     /**
-     * BROKEN
+     * This works
      */
     @Test
-    fun testUpdateV(): Unit = runBlocking {
+    fun testInsert(): Unit = runBlocking {
         val id = 123L
-        dao.insert(Data(id, emptyList(), emptyList()))
-        dao.updateV(id, listOf("a", "b"))
+        val data = Data(id, v = listOf("a", "b"), n = listOf(Nested("c"), Nested("d")))
+        dao.insert(data)
 
-        val e = dao.getById(id)
-        assert(e?.id == 123L)
-        assert(e?.v == listOf("a", "b"))
+        val inserted = dao.getById(id)
+        assert(inserted == data)
     }
 
     /**
-     * This works
+     * This also works
      */
     @Test
     fun testUpdateN(): Unit = runBlocking {
@@ -53,5 +52,19 @@ class DemoTest {
         val e = dao.getById(id)
         assert(e?.id == 123L)
         assert(e?.n == listOf(Nested("a"), Nested("b")))
+    }
+
+    /**
+     * Broken!
+     */
+    @Test
+    fun testUpdateV(): Unit = runBlocking {
+        val id = 123L
+        dao.insert(Data(id, emptyList(), emptyList()))
+        dao.updateV(id, listOf("a", "b"))
+
+        val e = dao.getById(id)
+        assert(e?.id == 123L)
+        assert(e?.v == listOf("a", "b"))
     }
 }
